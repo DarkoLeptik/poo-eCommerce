@@ -1,5 +1,5 @@
 class Universe{
-    static void main(string[] args){
+    static void Main(string[] args){
         Console.WriteLine("Hello World!");
     }
 }
