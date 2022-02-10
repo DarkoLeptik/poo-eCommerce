@@ -37,3 +37,11 @@ class Ship : Container{
 
 
 }
+
+enum shipAction{
+    buyGoods,
+    sellGoods,
+    leave, 
+    noAction
+
+}
