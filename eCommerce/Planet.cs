@@ -5,16 +5,17 @@ class Planet : Container
 	// Attributes.
     
     private Ship?[,] harbors;
-    private int harbor_nb=3;
+    private int harbor_nb;
     
 	// Contructor.
     
 	//limite de 5 products : Réguliers=1 à 3     ;     Dangereux: 4 et 5
-    public Planet(int[] myMaxGoods, int harbor_nb)
+    public Planet(int[] myMaxGoods, int harborsNb)
         :base(myMaxGoods)
     {
         // 1ère ligne: port  ;  2ème ligne: file d'attente   ; argument : nom du vaisseau
         // Harbor initalization
+        harbor_nb = harborsNb;
         harbors=new Ship[2,harbor_nb]; 
         for(int k=0;k<harbor_nb;k++){
             harbors[0,k]=null;
@@ -39,6 +40,11 @@ class Planet : Container
                 }
             }
         }
+
+        if (k == 0)
+        {
+            throw new CommercialException("Ship couldn't land");
+        }
     }
 
     public void TakeOff(Ship ship){
@@ -51,4 +57,11 @@ class Planet : Container
             }
         }
     }
-}   
+}
+
+[Serializable]
+internal class CommercialException : Exception
+{
+    internal CommercialException(string message) : base(message) {}
+    internal CommercialException(string message, Exception inner) : base(message, inner) { }
+}

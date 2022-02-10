@@ -22,25 +22,32 @@ class Universe{
         
         Console.Write(historyMessage);
     }
-/*
+
     static void TestPlanet()
     {
-        Planet p=new Planet(3,200,100,20,40,80);
-        //Planet p2=new Planet(2,300,30,10,30,60);
-        p.Land(10);
-        p.Land(11);
-        p.Land(12);
-        p.Land(13);
-        p.Land(14);
-        p.Land(15);
-        //p2.Atterrir(1);
-        //p2.Atterrir(2);
-        //p2.Atterrir(1,p2)
+        int[] maxGoods = {200, 100, 20, 40, 80};
+        Planet p=new Planet(maxGoods, 1);
+
+        Ship ship1 = new Ship(maxGoods, maxGoods, 0, true, 0);
+        Ship ship2 = new Ship(maxGoods, maxGoods, 0, true, 0);
+        Ship ship3 = new Ship(maxGoods, maxGoods, 0, true, 0);
+        try
+        {
+            p.Land(ship1);
+            p.Land(ship2);
+            p.Land(ship3);
+        }
+        catch (CommercialException e)
+        {
+            Console.WriteLine(e);
+            //TODO: remove the ship from the universe
+        }
         
         //foreach (int elem in p.Products)
         //{
         //	Console.WriteLine(elem);
         //}    
+        /*
         Console.WriteLine(p.Harbor[0,0]);
         Console.WriteLine(p.Harbor[0,1]);
         Console.WriteLine(p.Harbor[0,2]);
@@ -57,10 +64,12 @@ class Universe{
         Console.WriteLine(p.Harbor[1,0]);
         Console.WriteLine(p.Harbor[1,1]);
         Console.WriteLine(p.Harbor[1,2]);
+        */
     }
-*/
+
     static void Main(string[] args){
         Console.WriteLine("-*-*- Welcome to the eCommerce! -*-*-");
         TestContainer();
+        TestPlanet();
     }
 }
