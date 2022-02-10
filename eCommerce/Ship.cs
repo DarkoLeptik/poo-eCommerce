@@ -4,11 +4,11 @@ using System.Collections.Generic;
 class Ship : Container{
     private int[] itinerary;
     private int position;
-    private bool currentAction = null;
+    private bool currentAction;
     private int targetProduct;
 
     //A modifier avec le constructeur de Container
-    public Ship(int[] itin, int pos, bool currentAct, int targetProd){
+    public Ship(int[] myMaxGoods, int[] itin, int pos, bool currentAct, int targetProd): base(myMaxGoods){
         itinerary = itin;
         position = pos;
         currentAction = currentAct;

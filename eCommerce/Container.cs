@@ -12,6 +12,7 @@ class Container
         goods = new int[maxGoods.Length];
         history = new List<(int, int, int, int)>();
     }
+
     
     // Add goodAmount of type goodIndex to the container
     // Return the amount of unloaded goods

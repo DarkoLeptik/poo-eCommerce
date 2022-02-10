@@ -12,9 +12,10 @@ class Planet : Container
 	// Contructor.
     
 	//limite de 5 products : Réguliers=1 à 3     ;     Dangereux: 4 et 5
-    public Planet(int harbor_nb,int stock1,int stock2,int stock3,int stock4,int stock5)
+    public Planet(int[] myMaxGoods, int harbor_nb,int stock1,int stock2,int stock3,int stock4,int stock5)
+        :base(myMaxGoods)
     {
-    // 1ère ligne: port  ;  2ème ligne: file d'attente   ; argument : nom du vaisseau
+        // 1ère ligne: port  ;  2ème ligne: file d'attente   ; argument : nom du vaisseau
         // Harbor initalization
         harbors=new int[2,harbor_nb]; 
         for(int k=0;k<harbor_nb;k++){
@@ -76,51 +77,5 @@ class Planet : Container
                 }
             }
         }
-    }
-    public static void Main(string[] args)
-    {
-        Planet p=new Planet(3,200,100,20,40,80);
-        //Planet p2=new Planet(2,300,30,10,30,60);
-        p.Land(10);
-        p.Land(11);
-        p.Land(12);
-        p.Land(13);
-        p.Land(14);
-        p.Land(15);
-        //p2.Atterrir(1);
-        //p2.Atterrir(2);
-        //p2.Atterrir(1,p2)
-        /*
-        foreach (int elem in p.Products)
-        {
-        	Console.WriteLine(elem);
-        }    
-        */
-        Console.WriteLine(p.Harbor[0,0]);
-        Console.WriteLine(p.Harbor[0,1]);
-        Console.WriteLine(p.Harbor[0,2]);
-        Console.WriteLine(p.Harbor[1,0]);
-        Console.WriteLine(p.Harbor[1,1]);
-        Console.WriteLine(p.Harbor[1,2]);
-        p.TakeOff(11);
-        p.TakeOff(14);
-        p.TakeOff(15);
-        Console.WriteLine();
-        Console.WriteLine(p.Harbor[0,0]);
-        Console.WriteLine(p.Harbor[0,1]);
-        Console.WriteLine(p.Harbor[0,2]);
-        Console.WriteLine(p.Harbor[1,0]);
-        Console.WriteLine(p.Harbor[1,1]);
-        Console.WriteLine(p.Harbor[1,2]);
-
-
-
-        Container c = new Container();
-        Console.WriteLine();
-        Console.WriteLine(c.getGoods[0]);
-        Console.WriteLine(c.getMaxGoods[0]);
-        Console.WriteLine(c.getGoods[1]);
-        Console.WriteLine(c.getMaxGoods[1]);
-        
     }
 }   
