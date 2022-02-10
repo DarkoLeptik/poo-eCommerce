@@ -2,22 +2,22 @@ using System;
 using System.Collections.Generic;
 
 class Ship : Container{
-    private int[] itinéraire;
+    private int[] itinerary;
     private int position;
     private bool currentAction = null;
     private int targetProduct;
 
     //A modifier avec le constructeur de Container
     public Ship(int[] itin, int pos, bool currentAct, int targetProd){
-        itinéraire = itin;
+        itinerary = itin;
         position = pos;
         currentAction = currentAct;
         targetProduct = targetProd;
     }
     
-    public int[] Itineraire{
-        get { return itinéraire;}
-        set { itinéraire = value;}
+    public int[] Itinerary{
+        get { return itinerary;}
+        set { itinerary = value;}
     }
 
     public int Position{
