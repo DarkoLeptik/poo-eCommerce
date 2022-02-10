@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 class Ship : Container{
     private int[] itinéraire;
     private int position;
