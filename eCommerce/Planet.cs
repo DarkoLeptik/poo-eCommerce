@@ -10,8 +10,8 @@ class Planet : Container
 	// Contructor.
     
 	//limite de 5 products : Réguliers=1 à 3     ;     Dangereux: 4 et 5
-    public Planet(int[] myMaxGoods, int harborsNb)
-        :base(myMaxGoods)
+    public Planet(int[] myMaxGoods,int[] mystock, int harborsNb)
+        :base(myMaxGoods,mystock)
     {
         // 1ère ligne: port  ;  2ème ligne: file d'attente   ; argument : nom du vaisseau
         // Harbor initalization

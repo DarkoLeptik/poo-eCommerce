@@ -1,3 +1,4 @@
+
 class Universe{
 
     static void TestContainer()
@@ -26,8 +27,7 @@ class Universe{
     static void TestPlanet()
     {
         int[] maxGoods = {200, 100, 20, 40, 80};
-        Planet p=new Planet(maxGoods, 1);
-
+        Planet p=new Planet(maxGoods, 2);
         Ship ship1 = new Ship(maxGoods, maxGoods, 0, true, 0);
         Ship ship2 = new Ship(maxGoods, maxGoods, 0, true, 0);
         Ship ship3 = new Ship(maxGoods, maxGoods, 0, true, 0);
