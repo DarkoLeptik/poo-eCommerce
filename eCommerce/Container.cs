@@ -12,6 +12,22 @@ class Container
         goods = new int[maxGoods.Length];
         history = new List<(int, int, int, int)>();
     }
+    
+    internal Container(int[] myMaxGoods, int[] myGoods) 
+        : this(myMaxGoods)
+    {
+        for (int i = 0; i < myMaxGoods.Length && i < myGoods.Length; i++)
+        {
+            if (myGoods[i] > myMaxGoods[i])
+            {
+                goods[i] = myMaxGoods[i];
+            }
+            else
+            {
+                goods[i] = myGoods[i];
+            }
+        }
+    }
 
     
     // Add goodAmount of type goodIndex to the container
