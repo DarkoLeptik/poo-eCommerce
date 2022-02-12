@@ -8,7 +8,7 @@ using System.Collections.Generic;
         
         
     }  
-    internal quantity2load(){
+    internal int quantity2load(){
         if(isDangerous){
             return 20;
         }
@@ -17,7 +17,7 @@ using System.Collections.Generic;
         }
 
     }
-    internal quantity2unload(){
+    internal int quantity2unload(){
         if(isDangerous){
             return 10;
         }
