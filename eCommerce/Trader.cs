@@ -16,6 +16,7 @@ class Trader{
                 return 0;
             }
         }
+    
         else if(ship.ShipAction==sellGoods){ //vaisseau chargé
             if(planet.myMaxGoods[ship.TargetProduct()]!=0){
                 return ship.goods[ship.TargetProduct()];
@@ -26,10 +27,13 @@ class Trader{
             }
 
         }
+    }
 
     static void Trade(Planet[] planets){
+        Ship ship;
         foreach(Planet planet in planets){
             for(int k=0; k<planet.harbor_nb;k++){
+                ship=*planet.harbors[0,k];
                 if (ship.ShipAction==buyGoods){
                     ship.AddGoods(ship.TargetProduct(),searchForMax(ship,planet));
                     planet.RemoveGoods(ship.TargetProduct(),searchForMax(ship,planet));
@@ -44,3 +48,4 @@ class Trader{
 
     }
 }
+
