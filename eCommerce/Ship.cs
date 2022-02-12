@@ -35,6 +35,19 @@ class Ship : Container{
         set { targetProduct = value;}
     }
 
+    public void updatePosition(){
+        for(int i = 0; i<itinerary.Length; i++){
+            if(position == itinerary[i]){
+                if(i == itinerary.Length){
+                    position = itinerary[0];
+                }
+                else{
+                    position = itinerary[i+1];
+                }
+            }
+        }
+    }
+
 
 }
 
