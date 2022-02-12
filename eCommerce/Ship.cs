@@ -7,12 +7,15 @@ class Ship : Container{
     private bool currentAction;
     private int targetProduct;
 
+    private int nb_cycles;
+
     //A modifier avec le constructeur de Container
-    public Ship(int[] myMaxGoods, int[] itin, int pos, bool currentAct, int targetProd): base(myMaxGoods){
+    public Ship(int[] myMaxGoods, int[] itin, int pos, bool currentAct, int targetProd, int nb_cycl): base(myMaxGoods){
         itinerary = itin;
         position = pos;
         currentAction = currentAct;
         targetProduct = targetProd;
+        nb_cycles = nb_cycl;
     }
     
     public int[] Itinerary{
@@ -40,6 +43,7 @@ class Ship : Container{
             if(position == itinerary[i]){
                 if(i == itinerary.Length){
                     position = itinerary[0];
+                    updateCyclesLeft();
                 }
                 else{
                     position = itinerary[i+1];
@@ -47,6 +51,17 @@ class Ship : Container{
                 }
             }
         }
+    }
+
+    public bool updateCyclesLeft(){
+        nb_cycles --;
+        if(nb_cycles>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 
 
