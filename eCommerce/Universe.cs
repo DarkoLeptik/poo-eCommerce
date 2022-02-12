@@ -67,6 +67,29 @@ class Universe{
         */
     }
 
+    static void ManageShips(Planet[] planets, Ship[] ships){
+        foreach(Planet planet in planets){
+            for(int i = 0; i<planet.harbor_nb; i++){
+                Ship tempShip = planet.Harbor[0,i];
+                if(planet.Harbor[0,i].CurrentAction == leave){   
+                    planet.TakeOff(planet.Harbor[0,i]);
+                    tempShip.updatePosition();
+                }
+            }
+            planet.Advance();
+        }
+        foreach(Ship ship in ships){
+            if(ship.CurrentAction == travelling){
+                try{
+                    planets[position].Land(ship);
+                }
+                catch(CommercialException e){
+                    //TODO : Retirer vaisseau de l'univers
+                }
+            }
+        }
+    }
+
     static void Main(string[] args){
         Console.WriteLine("-*-*- Welcome to the eCommerce! -*-*-");
         TestContainer();

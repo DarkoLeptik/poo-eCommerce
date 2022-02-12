@@ -43,6 +43,7 @@ class Ship : Container{
                 }
                 else{
                     position = itinerary[i+1];
+                    currentAction = travelling;
                 }
             }
         }
@@ -55,6 +56,7 @@ enum shipAction{
     buyGoods,
     sellGoods,
     leave, 
-    noAction
+    noAction,
+    travelling
 
 }
