@@ -51,7 +51,10 @@ internal class Creator
         Random rdm= new Random();
         int lifetime = rdm.Next(1, 50);
 
-        Ship newShip = new Ship(maxGoods, itinerary, -1, false, -1);
+        Ship newShip = new Ship(maxGoods, itinerary, lifetime);
+        
+        Console.WriteLine($"New ship created of type {shipType}");
+        
         return newShip;
     }
 

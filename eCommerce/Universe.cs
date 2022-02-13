@@ -4,6 +4,8 @@ class Universe
     private static List<Ship> allShips;
     private static Planet[] allPlanets;
     private static Creator myCreator;
+    private static Trader myTrader;
+    private static int goodsNb = 3;
 
     private static void DisplayHistory(Container myContainer)
     {
@@ -43,7 +45,8 @@ class Universe
     
     private static void InitializeSpace()
     {
-        myCreator = new Creator(3,5, InitializeShipsCapacity());
+        myCreator = new Creator(goodsNb,5, InitializeShipsCapacity());
+        myTrader = new Trader(goodsNb);
         
         allPlanets = new Planet[5];
         for (int i = 0; i < 5; i++)
@@ -55,31 +58,56 @@ class Universe
         CreateShips(4);
     }
 
-    static void ManageShips(Planet[] planets, Ship[] ships){
-        foreach(Planet planet in planets){
-            for(int i = 0; i<planet.harbor_nb; i++){
-                Ship tempShip = planet.Harbor[0,i];
-                if(planet.Harbor[0,i].CurrentAction == leave){   
-                    planet.TakeOff(planet.Harbor[0,i]);
+    static void ManageShips(){
+        foreach(Planet planet in allPlanets){
+            for(int i = 0; i<planet.Harbor.Length/2; i++){
+                Ship? tempShip = planet.Harbor[0,i];
+                if ((tempShip != null) && (tempShip.CurrentAction == shipAction.leave)){   
+                    planet.TakeOff(tempShip);
                     tempShip.updatePosition();
                 }
             }
             planet.Advance();
         }
-        foreach(Ship ship in ships){
-            if(ship.CurrentAction == travelling){
+        Console.WriteLine(allShips);
+        foreach(Ship ship in allShips.ToList()){
+            // checks if it has some time left
+            if (!ship.updateCyclesLeft())
+            {
+                allShips.Remove(ship);
+            }
+            
+            if(ship.CurrentAction == shipAction.travelling){
                 try{
-                    planets[position].Land(ship);
+                    allPlanets[ship.Position].Land(ship);
                 }
                 catch(CommercialException e){
-                    //TODO : Retirer vaisseau de l'univers
+                    allShips.Remove(ship);
+                    Console.WriteLine(e);
                 }
             }
+        }
+    }
+
+    static void DisplayFullHistory()
+    {
+        foreach (var planet in allPlanets)
+        {
+            planet.DisplayGoods();
+            DisplayHistory(planet);
         }
     }
 
     static void Main(string[] args){
         Console.WriteLine("-*-*- Welcome to the eCommerce! -*-*-");
         InitializeSpace();
+        for (int i = 0; i < 3; i++)
+        {
+            DisplayFullHistory();
+            ManageShips();
+            myTrader.Trade(allPlanets);
+            CreateShips(1);
+            Thread.Sleep(2000);
+        }
     }
 }

@@ -68,4 +68,14 @@ class Container
         history.CopyTo(historyArray);
         return historyArray;
     }
+
+    internal void DisplayGoods()
+    {
+        string displayMessage = "";
+        for(int i = 0; i<goods.Length; i++ )
+        {
+            displayMessage += $"{i}: {goods[i]}/{maxGoods[i]}\n";
+        }
+        Console.WriteLine(displayMessage);
+    }
 }

@@ -1,26 +1,32 @@
 using System;
 using System.Collections.Generic;
-
+enum shipAction
+{
+    buyGoods,
+    sellGoods,
+    leave, 
+    noAction,
+    travelling
+}
 class Ship : Container{
     private int[] itinerary;
     private int position;
-    private bool currentAction;
+    private shipAction currentAction;
     private int targetProduct;
 
     private int nb_cycles;
-
-    //A modifier avec le constructeur de Container
-    public Ship(int[] myMaxGoods, int[] itin, int pos, bool currentAct, int targetProd, int nb_cycl): base(myMaxGoods){
+    
+    public Ship(int[] myMaxGoods, int[] itin, int nbCycl): base(myMaxGoods){
         itinerary = itin;
-        position = pos;
-        currentAction = currentAct;
-        targetProduct = targetProd;
-        nb_cycles = nb_cycl;
+        position = itin[0];
+        currentAction = shipAction.travelling;
+        targetProduct = -1;
+        nb_cycles = nbCycl;
     }
     
     public int[] Itinerary{
         get { return itinerary;}
-        set { itinerary = value;}
+        private set { itinerary = value;}
     }
 
     public int Position{
@@ -28,7 +34,7 @@ class Ship : Container{
         set { position = value;}
     }
 
-    public bool CurrentAction{
+    public shipAction CurrentAction{
         get { return currentAction;}
         set { currentAction = value;}
     }
@@ -43,11 +49,10 @@ class Ship : Container{
             if(position == itinerary[i]){
                 if(i == itinerary.Length){
                     position = itinerary[0];
-                    updateCyclesLeft();
                 }
                 else{
                     position = itinerary[i+1];
-                    currentAction = travelling;
+                    currentAction = shipAction.travelling;
                 }
             }
         }
@@ -61,17 +66,7 @@ class Ship : Container{
         else{
             return false;
         }
-
     }
 
-
-}
-
-enum shipAction{
-    buyGoods,
-    sellGoods,
-    leave, 
-    noAction,
-    travelling
 
 }
