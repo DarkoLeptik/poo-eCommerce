@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
- class Goods {
+ internal class Goods {
     
     private bool isDangerous;
     public Goods(bool dangerousness){

@@ -1,4 +1,4 @@
-enum ShipType
+internal enum ShipType
 {
     Xwing = 0,
     Yt1300,

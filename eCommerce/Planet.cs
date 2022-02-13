@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-class Planet : Container
+internal class Planet : Container
 {
 	// Attributes.
     

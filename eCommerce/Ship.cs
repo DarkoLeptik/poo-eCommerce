@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-enum shipAction
+internal enum shipAction
 {
     buyGoods,
     sellGoods,
@@ -8,7 +8,7 @@ enum shipAction
     noAction,
     travelling
 }
-class Ship : Container{
+internal class Ship : Container{
     private int[] itinerary;
     private int position;
     private shipAction currentAction;

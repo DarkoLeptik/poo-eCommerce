@@ -1,5 +1,5 @@
 
-class Universe
+public class Universe
 {
     private static List<Ship> allShips;
     private static Planet[] allPlanets;
@@ -24,7 +24,7 @@ class Universe
         }
     }
     
-    private static void CreateShips(int n)
+    public static void CreateShips(int n)
     {
         Random rdm = new Random();
         for (int i = 0; i < n; i++)
@@ -47,7 +47,7 @@ class Universe
         return shipsCapacity;
     }
     
-    private static void InitializeSpace()
+    public static void InitializeSpace()
     {
         myCreator = new Creator(goodsNb,5, InitializeShipsCapacity());
         myTrader = new Trader(goodsNb);
@@ -67,7 +67,7 @@ class Universe
         CreateShips(4);
     }
 
-    static void ManageShips(){
+    public static void ManageShips(){
         foreach(Planet planet in allPlanets){
             for(int i = 0; i<planet.Harbor.Length/2; i++){
                 Ship? tempShip = planet.Harbor[0,i];
@@ -99,7 +99,7 @@ class Universe
         }
     }
 
-    static void DisplayFullHistory()
+    public static void DisplayFullHistory()
     {
         Console.WriteLine("--Planets history--");
         foreach (var planet in allPlanets)

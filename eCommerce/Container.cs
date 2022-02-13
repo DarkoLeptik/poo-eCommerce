@@ -62,7 +62,7 @@ internal class Container
     // The second Item represents the amount of designated goods stored before the transaction
     // The third one the transaction attempted
     // the last one the storage after the transaction
-    public (int,int,int,int)[] TransactionHistory()
+    internal (int,int,int,int)[] TransactionHistory()
     {
         (int, int, int, int)[] historyArray = new (int, int, int, int)[history.Count];
         history.CopyTo(historyArray);
