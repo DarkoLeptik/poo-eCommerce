@@ -29,6 +29,15 @@ class Planet : Container
       get { return harbors; }
       private set { harbors=value;}
     }  
+
+    public void Advance(){
+        for(int i = 0; i<harbor_nb; i++){
+                if(harbors[1, i] != null && harbors[0, i] == null){
+                    harbors[0, i] = harbors[1, i];
+                    harbors[1, i] = null;
+                }
+            }
+    }
     
     public void Land(Ship ship){
         int k=0; //compteur pour arrêter de chercher une place au port lorsqu'on en a trouvé une
