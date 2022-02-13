@@ -1,19 +1,13 @@
 
-class Universe{
+class Universe
+{
+    private static List<Ship> allShips;
+    private static Planet[] allPlanets;
+    private static Creator myCreator;
 
-    static void TestContainer()
+    static void DisplayHistory(Container myContainer)
     {
-        int[] maxValues = {50, 0, 100};
-        Container myContainer = new Container(maxValues);
-
-        int spaceLeft1 = myContainer.AddGoods(0, 75);
-        int spaceLeft2 = myContainer.AddGoods(2, 60);
-        int goodsRemoved1 = myContainer.RemoveGoods(0, 60);
-        int goodsRemoved2 = myContainer.RemoveGoods(2, 25);
-
-        string message = $"First load: {spaceLeft1}\nSecond load: {spaceLeft2}\nFirst unload: {goodsRemoved1}\nSecond unload: {goodsRemoved2}\n\n";
-        Console.Write(message);
-
+        // Displays the history of a container, to complete
         string historyMessage = "";
         
         foreach (var historyLine in myContainer.TransactionHistory())
@@ -23,53 +17,29 @@ class Universe{
         
         Console.Write(historyMessage);
     }
-
-    static void TestPlanet()
+    
+    static void CreateShips(int n)
     {
-        int[] maxGoods = {200, 100, 20, 40, 80};
-        Planet p=new Planet(maxGoods, 2);
-        Ship ship1 = new Ship(maxGoods, maxGoods, 0, true, 0);
-        Ship ship2 = new Ship(maxGoods, maxGoods, 0, true, 0);
-        Ship ship3 = new Ship(maxGoods, maxGoods, 0, true, 0);
-        try
+        Random rdm = new Random();
+        for (int i = 0; i < n; i++)
         {
-            p.Land(ship1);
-            p.Land(ship2);
-            p.Land(ship3);
+            allShips.Add(myCreator.CreateShip((ShipType)rdm.Next(2)));
         }
-        catch (CommercialException e)
+    }
+    
+    static void InitializeSpace()
+    {
+        allPlanets = new Planet[5];
+        for (int i = 0; i < 5; i++)
         {
-            Console.WriteLine(e);
-            //TODO: remove the ship from the universe
+            allPlanets[i] = myCreator.CreatePlanet();
         }
-        
-        //foreach (int elem in p.Products)
-        //{
-        //	Console.WriteLine(elem);
-        //}    
-        /*
-        Console.WriteLine(p.Harbor[0,0]);
-        Console.WriteLine(p.Harbor[0,1]);
-        Console.WriteLine(p.Harbor[0,2]);
-        Console.WriteLine(p.Harbor[1,0]);
-        Console.WriteLine(p.Harbor[1,1]);
-        Console.WriteLine(p.Harbor[1,2]);
-        p.TakeOff(11);
-        p.TakeOff(14);
-        p.TakeOff(15);
-        Console.WriteLine();
-        Console.WriteLine(p.Harbor[0,0]);
-        Console.WriteLine(p.Harbor[0,1]);
-        Console.WriteLine(p.Harbor[0,2]);
-        Console.WriteLine(p.Harbor[1,0]);
-        Console.WriteLine(p.Harbor[1,1]);
-        Console.WriteLine(p.Harbor[1,2]);
-        */
+
+        allShips = new List<Ship>();
+        CreateShips(4);
     }
 
     static void Main(string[] args){
         Console.WriteLine("-*-*- Welcome to the eCommerce! -*-*-");
-        TestContainer();
-        TestPlanet();
     }
 }
