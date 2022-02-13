@@ -1,14 +1,74 @@
+enum ShipType
+{
+    Xwing = 0,
+    Yt1300,
+    StarDestroyer
+}
+
 internal class Creator
 {
-    // products initialization
-    /*
-    products = new int[2,5]; //ligne1 : capacité_storage  ;    ligne2: products en stock
-    Random rdm= new Random();
-    for(int i=1;i<6;i++)
-    {  
-        //on remplie les différentes capacités de storage des products et leur nombre (initialisé aléatoirement)
-        products[0,i-1]=storage["stock"+i.ToString()];
-        products[1,i-1]=rdm.Next(0,storage["stock"+i.ToString()]+1);  //génération aléatoire
+    private int goodsNb;
+    private int planetsNb;
+    private List<int[]> shipsMaxGoods;
+
+    private int[] CreateItinerary() // tirage sans remise
+    { 
+        Random rdm= new Random(); 
+        int[] result = new int[rdm.Next(2,planetsNb)];
+
+        List<int> planetsAvailable = new List<int>(planetsNb);
+        for (int i = 0; i < planetsNb; i++)
+        {
+            planetsAvailable.Add(i);
+        }
+
+        for (int j = 0; j < result.Length; j++)
+        {
+            int randomIndex = rdm.Next(0, planetsAvailable.Count);
+            result[j] = planetsAvailable[randomIndex];
+            planetsAvailable.Remove(result[j]);
+        }
+        
+        return result;
     }
-    */
+    internal Creator(int goodsNb, int planetsNb, List<int[]> shipsStocks)
+    {
+        this.goodsNb = goodsNb;
+        this.planetsNb = planetsNb;
+        shipsMaxGoods = shipsStocks;
+    }
+
+    internal Ship CreateShip(ShipType shipType) 
+    {
+        // creates the stockage depending on the ship type
+        int[] maxGoods = shipsMaxGoods[(int) shipType];
+        
+        // creates the intinerary
+        int[] itinerary = CreateItinerary();
+        
+        // choose the lifetime
+        Random rdm= new Random();
+        int lifetime = rdm.Next(1, 50);
+
+        Ship newShip = new Ship(maxGoods, itinerary, -1, false, -1);
+        return newShip;
+    }
+
+    internal Planet CreatePlanet()
+    {
+        Random rdm= new Random();
+        
+        int[] maxGoods = new int[goodsNb];
+        int[] goods = new int[goodsNb];
+        for (int i = 0; i < goodsNb; i++)
+        {
+            maxGoods[i] = rdm.Next(1, 20) * 10;
+            goods[i] = rdm.Next(0, maxGoods[i]+1);
+        }
+
+        int randomHarbors = rdm.Next(1,3);
+        
+        Planet newPlanet = new Planet(maxGoods, goods, randomHarbors);
+        return newPlanet;
+    }
 }
