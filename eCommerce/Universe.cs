@@ -5,7 +5,7 @@ class Universe
     private static Planet[] allPlanets;
     private static Creator myCreator;
 
-    static void DisplayHistory(Container myContainer)
+    private static void DisplayHistory(Container myContainer)
     {
         // Displays the history of a container, to complete
         string historyMessage = "";
@@ -18,7 +18,7 @@ class Universe
         Console.Write(historyMessage);
     }
     
-    static void CreateShips(int n)
+    private static void CreateShips(int n)
     {
         Random rdm = new Random();
         for (int i = 0; i < n; i++)
@@ -26,9 +26,25 @@ class Universe
             allShips.Add(myCreator.CreateShip((ShipType)rdm.Next(2)));
         }
     }
-    
-    static void InitializeSpace()
+
+    private static List<int[]> InitializeShipsCapacity()
     {
+        int[] XwingCapacity = {10, 20, 0};
+        int[] Yt1300Capacity = {40, 0, 10};
+        int[] StarDestroyerCapacity = {10, 50, 70};
+
+        List<int[]> shipsCapacity = new List<int[]>();
+        shipsCapacity.Add(XwingCapacity);
+        shipsCapacity.Add(Yt1300Capacity);
+        shipsCapacity.Add(StarDestroyerCapacity);
+        
+        return shipsCapacity;
+    }
+    
+    private static void InitializeSpace()
+    {
+        myCreator = new Creator(3,5, InitializeShipsCapacity());
+        
         allPlanets = new Planet[5];
         for (int i = 0; i < 5; i++)
         {
@@ -41,5 +57,6 @@ class Universe
 
     static void Main(string[] args){
         Console.WriteLine("-*-*- Welcome to the eCommerce! -*-*-");
+        InitializeSpace();
     }
 }

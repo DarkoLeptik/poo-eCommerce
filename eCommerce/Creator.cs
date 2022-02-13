@@ -10,7 +10,14 @@ internal class Creator
     private int goodsNb;
     private int planetsNb;
     private List<int[]> shipsMaxGoods;
-
+    
+    internal Creator(int goodsNb, int planetsNb, List<int[]> shipsStocks)
+    {
+        this.goodsNb = goodsNb;
+        this.planetsNb = planetsNb;
+        shipsMaxGoods = shipsStocks;
+    }
+    
     private int[] CreateItinerary() // tirage sans remise
     { 
         Random rdm= new Random(); 
@@ -30,12 +37,6 @@ internal class Creator
         }
         
         return result;
-    }
-    internal Creator(int goodsNb, int planetsNb, List<int[]> shipsStocks)
-    {
-        this.goodsNb = goodsNb;
-        this.planetsNb = planetsNb;
-        shipsMaxGoods = shipsStocks;
     }
 
     internal Ship CreateShip(ShipType shipType) 
