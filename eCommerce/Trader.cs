@@ -1,51 +1,43 @@
 using System;
 
 class Trader{
-    internal searchForMax(Ship ship, Planet planet){
-        int shipCapacity=ship.myMaxGoods[ship.TargetProduct()]-ship.goods[ship.TargetProduct()];
-        if (ship.ShipAction==buyGoods){  //vaisseau non chargé
-            if(planet.myMaxGoods[ship.TargetProduct()]!=0){
-                if(shipCapacity>=planet.goods[ship.TargetProduct()]){
-                    return planet.goods[ship.TargetProduct()];
-                }
-                else{
-                    return shipCapacity;
-                }
-            }
-            else{
-                return 0;
-            }
+    private Goods[] listOfGoods;
+    public Trader(int goodsNb){
+        listOfGoods=new Goods[goodsNb];
+        for (int i = 0; i < goodsNb-1; i++)
+        {
+            listOfGoods[i] = new Goods(false);
         }
-    
-        else if(ship.ShipAction==sellGoods){ //vaisseau chargé
-            if(planet.myMaxGoods[ship.TargetProduct()]!=0){
-                return ship.goods[ship.TargetProduct()];
-
-            }
-            else{
-                return 0;
-            }
-
-        }
+        listOfGoods[goodsNb-1] = new Goods(true);
     }
-
-    static void Trade(Planet[] planets){
-        Ship ship;
-        foreach(Planet planet in planets){
-            for(int k=0; k<planet.harbor_nb;k++){
-                ship=*planet.harbors[0,k];
-                if (ship.ShipAction==buyGoods){
-                    ship.AddGoods(ship.TargetProduct(),searchForMax(ship,planet));
-                    planet.RemoveGoods(ship.TargetProduct(),searchForMax(ship,planet));
-                }
-                else if(ship.ShipAction==sellGoods){
-                    planet.AddGoods(ship.TargetProduct(),searchForMax(ship,planet));
-                    ship.RemoveGoods(ship.TargetProduct(),searchForMax(ship,planet));
-
+    internal void Trade(Planet[] planets){
+        Ship? ship;
+        bool a;
+        Random rdm = new Random();
+        for(int i = 0; i < planets.Length; i++){
+            for(int k=0; k<planets[i].Harbor.Length/2;k++){
+                ship= planets[i].Harbor[0,k];
+                if(ship!=null){
+                    a=true;
+                    if (ship.CurrentAction==shipAction.buyGoods){
+                        a=ship.AddGoodsFrom(planets[i],ship.TargetProduct,listOfGoods[ship.TargetProduct].quantity2load());
+                    }
+                    else if(ship.CurrentAction==shipAction.sellGoods){
+                        a=planets[i].AddGoodsFrom(ship,ship.TargetProduct,listOfGoods[ship.TargetProduct].quantity2unload());
+                    }
+                    else if (ship.CurrentAction == shipAction.noAction)
+                    {
+                        ship.CurrentAction = (rdm.Next(2) > 0)
+                            ?  shipAction.buyGoods
+                            :  shipAction.sellGoods;
+                        ship.TargetProduct = rdm.Next(listOfGoods.Length); // TODO: choose depending on stock
+                    }
+                    if(!a){
+                        ship.CurrentAction = shipAction.leave;
+                    }
                 }
             }
         }
-
     }
 }
 

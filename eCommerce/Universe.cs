@@ -1,75 +1,130 @@
-class Universe{
 
-    static void TestContainer()
+class Universe
+{
+    private static List<Ship> allShips;
+    private static Planet[] allPlanets;
+    private static Creator myCreator;
+    private static Trader myTrader;
+    private static int goodsNb = 4;
+    private static int planetsNb = 5;
+
+    private static void DisplayHistory(Container myContainer)
     {
-        int[] maxValues = {50, 0, 100};
-        Container myContainer = new Container(maxValues);
-
-        int spaceLeft1 = myContainer.AddGoods(0, 75);
-        int spaceLeft2 = myContainer.AddGoods(2, 60);
-        int goodsRemoved1 = myContainer.RemoveGoods(0, 60);
-        int goodsRemoved2 = myContainer.RemoveGoods(2, 25);
-
-        string message = $"First load: {spaceLeft1}\nSecond load: {spaceLeft2}\nFirst unload: {goodsRemoved1}\nSecond unload: {goodsRemoved2}\n\n";
-        Console.Write(message);
-
-        string historyMessage = "";
-        
-        foreach (var historyLine in myContainer.TransactionHistory())
+        // Displays the history of a container, to complete
+        if (myContainer.TransactionHistory().Length > 0)
         {
-            historyMessage += $"Exchanged: {historyLine.Item1} from: {historyLine.Item2}, changed: {historyLine.Item3}, result: {historyLine.Item4}\n";
-        }
+            string historyMessage = "";
         
-        Console.Write(historyMessage);
+            foreach (var historyLine in myContainer.TransactionHistory())
+            {
+                historyMessage += $"Traded good of type {historyLine.Item1}: had {historyLine.Item2}, attempted to move {historyLine.Item3}, stock at the end {historyLine.Item4}\n";
+            }
+        
+            Console.WriteLine(historyMessage);   
+        }
+    }
+    
+    private static void CreateShips(int n)
+    {
+        Random rdm = new Random();
+        for (int i = 0; i < n; i++)
+        {
+            allShips.Add(myCreator.CreateShip((ShipType)rdm.Next(2)));
+        }
     }
 
-    static void TestPlanet()
+    private static List<int[]> InitializeShipsCapacity()
     {
-        int[] maxGoods = {200, 100, 20, 40, 80};
-        Planet p=new Planet(maxGoods, 1);
+        int[] XwingCapacity = {10, 20, 0, 10};
+        int[] Yt1300Capacity = {40, 0, 10, 40};
+        int[] StarDestroyerCapacity = {10, 50, 70, 30};
 
-        Ship ship1 = new Ship(maxGoods, maxGoods, 0, true, 0);
-        Ship ship2 = new Ship(maxGoods, maxGoods, 0, true, 0);
-        Ship ship3 = new Ship(maxGoods, maxGoods, 0, true, 0);
-        try
-        {
-            p.Land(ship1);
-            p.Land(ship2);
-            p.Land(ship3);
-        }
-        catch (CommercialException e)
-        {
-            Console.WriteLine(e);
-            //TODO: remove the ship from the universe
-        }
+        List<int[]> shipsCapacity = new List<int[]>();
+        shipsCapacity.Add(XwingCapacity);
+        shipsCapacity.Add(Yt1300Capacity);
+        shipsCapacity.Add(StarDestroyerCapacity);
         
-        //foreach (int elem in p.Products)
-        //{
-        //	Console.WriteLine(elem);
-        //}    
-        /*
-        Console.WriteLine(p.Harbor[0,0]);
-        Console.WriteLine(p.Harbor[0,1]);
-        Console.WriteLine(p.Harbor[0,2]);
-        Console.WriteLine(p.Harbor[1,0]);
-        Console.WriteLine(p.Harbor[1,1]);
-        Console.WriteLine(p.Harbor[1,2]);
-        p.TakeOff(11);
-        p.TakeOff(14);
-        p.TakeOff(15);
-        Console.WriteLine();
-        Console.WriteLine(p.Harbor[0,0]);
-        Console.WriteLine(p.Harbor[0,1]);
-        Console.WriteLine(p.Harbor[0,2]);
-        Console.WriteLine(p.Harbor[1,0]);
-        Console.WriteLine(p.Harbor[1,1]);
-        Console.WriteLine(p.Harbor[1,2]);
-        */
+        return shipsCapacity;
+    }
+    
+    private static void InitializeSpace()
+    {
+        myCreator = new Creator(goodsNb,5, InitializeShipsCapacity());
+        myTrader = new Trader(goodsNb);
+        
+        allPlanets = new Planet[planetsNb];
+        
+        Console.WriteLine("--Planets initial state--");
+        for (int i = 0; i < planetsNb; i++)
+        {
+            Console.WriteLine($"Planet {i}");
+            allPlanets[i] = myCreator.CreatePlanet();
+            allPlanets[i].DisplayGoods();
+            Console.WriteLine("");
+        }
+
+        allShips = new List<Ship>();
+        CreateShips(4);
+    }
+
+    static void ManageShips(){
+        foreach(Planet planet in allPlanets){
+            for(int i = 0; i<planet.Harbor.Length/2; i++){
+                Ship? tempShip = planet.Harbor[0,i];
+                if ((tempShip != null) && (tempShip.CurrentAction == shipAction.leave)){   
+                    planet.TakeOff(tempShip);
+                    tempShip.updatePosition();
+                }
+            }
+            planet.Advance();
+        }
+        foreach(Ship ship in allShips.ToList()){
+            // checks if it has some time left
+            if (!ship.updateCyclesLeft())
+            {
+                allShips.Remove(ship);
+                Console.WriteLine("A ship has left the eCommerce !");
+            }
+            
+            if(ship.CurrentAction == shipAction.travelling){
+                try{
+                    allPlanets[ship.Position].Land(ship);
+                    ship.CurrentAction = shipAction.noAction;
+                }
+                catch(CommercialException e){
+                    allShips.Remove(ship);
+                    Console.WriteLine(e);
+                }
+            }
+        }
+    }
+
+    static void DisplayFullHistory()
+    {
+        Console.WriteLine("--Planets history--");
+        foreach (var planet in allPlanets)
+        {
+            DisplayHistory(planet);
+        }
+        Console.WriteLine("\n--Ships history--");
+        foreach (var ship in allShips)
+        {
+            DisplayHistory(ship);
+        }
     }
 
     static void Main(string[] args){
         Console.WriteLine("-*-*- Welcome to the eCommerce! -*-*-");
-        TestContainer();
-        TestPlanet();
+        InitializeSpace();
+        for (int i = 0; i < 5; i++)
+        {
+            Console.WriteLine($"\n---TURN {i}---");
+            DisplayFullHistory();
+            ManageShips();
+            myTrader.Trade(allPlanets);
+            CreateShips(1);
+            
+            Thread.Sleep(2000);
+        }
     }
 }

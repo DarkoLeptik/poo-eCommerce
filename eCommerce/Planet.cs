@@ -4,14 +4,14 @@ class Planet : Container
 {
 	// Attributes.
     
-    private Ship?[,] harbors;
+    private Ship? [,] harbors;
     private int harbor_nb;
     
 	// Contructor.
     
 	//limite de 5 products : Réguliers=1 à 3     ;     Dangereux: 4 et 5
-    public Planet(int[] myMaxGoods, int harborsNb)
-        :base(myMaxGoods)
+    public Planet(int[] myMaxGoods,int[] mystock, int harborsNb)
+        :base(myMaxGoods,mystock)
     {
         // 1ère ligne: port  ;  2ème ligne: file d'attente   ; argument : nom du vaisseau
         // Harbor initalization
@@ -29,6 +29,15 @@ class Planet : Container
       get { return harbors; }
       private set { harbors=value;}
     }  
+
+    public void Advance(){
+        for(int i = 0; i<harbor_nb; i++){
+                if(harbors[1, i] != null && harbors[0, i] == null){
+                    harbors[0, i] = harbors[1, i];
+                    harbors[1, i] = null;
+                }
+            }
+    }
     
     public void Land(Ship ship){
         int k=0; //compteur pour arrêter de chercher une place au port lorsqu'on en a trouvé une

@@ -1,5 +1,5 @@
 
-class Container
+internal class Container
 {
     private int[] goods;
     private int[] maxGoods;
@@ -12,44 +12,49 @@ class Container
         goods = new int[maxGoods.Length];
         history = new List<(int, int, int, int)>();
     }
+    
+    internal Container(int[] myMaxGoods, int[] myGoods) 
+        : this(myMaxGoods)
+    {
+        for (int i = 0; i < myMaxGoods.Length && i < myGoods.Length; i++)
+        {
+            if (myGoods[i] > myMaxGoods[i])
+            {
+                goods[i] = myMaxGoods[i];
+            }
+            else
+            {
+                goods[i] = myGoods[i];
+            }
+        }
+    }
 
     
     // Add goodAmount of type goodIndex to the container
-    // Return the amount of unloaded goods
-    // if negative, then some space's left
-    internal int AddGoods(int goodIndex, int goodAmount)
+    // Return true if the action can be performed again
+    // Return false if the ship should leave the planet
+    internal bool AddGoodsFrom(Container otherContainer,int goodIndex, int goodAmount)
     {
-        int goodsBefore = goods[goodIndex];
-            
-        // Adds the goods in the container
-        goods[goodIndex] += goodAmount;
-        int spaceLeft = goods[goodIndex] - maxGoods[goodIndex];
-        if (spaceLeft > 0)
+        int goodsToMove = 0;
+        
+        // Count how many goods can be moved
+        goodsToMove = Math.Min(otherContainer.goods[goodIndex], goodAmount);
+        goodsToMove = Math.Min(maxGoods[goodIndex] - goods[goodIndex], goodsToMove);
+        
+        // Move the goods
+        otherContainer.goods[goodIndex] -= goodsToMove;
+        goods[goodIndex] += goodsToMove;
+        
+        // Add the operation to the containers
+        otherContainer.history.Add((goodIndex, otherContainer.goods[goodIndex] + goodsToMove, -goodAmount, otherContainer.goods[goodIndex]));
+        history.Add((goodIndex, goods[goodIndex] - goodsToMove, goodAmount, goods[goodIndex]));
+        
+        if ((otherContainer.goods[goodIndex] == 0) || (maxGoods[goodIndex] == goods[goodIndex]))
         {
-            goods[goodIndex] = maxGoods[goodIndex];
+            return false;
         }
         
-        // Add the operation to the container
-        history.Add((goodIndex, goodsBefore, goodAmount, goods[goodIndex]));
-        
-        return spaceLeft;
-    }
-    
-    // Remove goodAmount goods of type goodIndex
-    // return the amount of goods effectively removed
-    internal int RemoveGoods(int goodIndex, int goodAmount)
-    {
-        int goodsBefore = goods[goodIndex];
-        
-        // Remove as much goods as possible from the container, with a max of goodAmount
-        int goodsUnremoved = Math.Max(goodAmount - goods[goodIndex], 0);
-        int goodsRemoved = (goodAmount - goodsUnremoved);
-        goods[goodIndex] -= goodsRemoved;
-
-        // Add the operation to the container
-        history.Add((goodIndex, goodsBefore, -goodAmount, goods[goodIndex]));
-        
-        return goodsRemoved;
+        return goodsToMove == goodAmount;
     }
 
     // This method only returns raw datas:
@@ -57,10 +62,20 @@ class Container
     // The second Item represents the amount of designated goods stored before the transaction
     // The third one the transaction attempted
     // the last one the storage after the transaction
-    internal (int,int,int,int)[] TransactionHistory()
+    public (int,int,int,int)[] TransactionHistory()
     {
         (int, int, int, int)[] historyArray = new (int, int, int, int)[history.Count];
         history.CopyTo(historyArray);
         return historyArray;
+    }
+
+    internal void DisplayGoods()
+    {
+        string displayMessage = "";
+        for(int i = 0; i<goods.Length; i++ )
+        {
+            displayMessage += $"{i}: {goods[i]}/{maxGoods[i]}\n";
+        }
+        Console.Write(displayMessage);
     }
 }
