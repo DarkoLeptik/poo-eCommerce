@@ -1,5 +1,5 @@
 
-class Container
+internal class Container
 {
     private int[] goods;
     private int[] maxGoods;
@@ -46,7 +46,7 @@ class Container
         goods[goodIndex] += goodsToMove;
         
         // Add the operation to the containers
-        otherContainer.history.Add((goodIndex, goods[goodIndex] + goodsToMove, goodAmount, goods[goodIndex]));
+        otherContainer.history.Add((goodIndex, otherContainer.goods[goodIndex] + goodsToMove, -goodAmount, otherContainer.goods[goodIndex]));
         history.Add((goodIndex, goods[goodIndex] - goodsToMove, goodAmount, goods[goodIndex]));
         
         if ((otherContainer.goods[goodIndex] == 0) || (maxGoods[goodIndex] == goods[goodIndex]))
@@ -62,7 +62,7 @@ class Container
     // The second Item represents the amount of designated goods stored before the transaction
     // The third one the transaction attempted
     // the last one the storage after the transaction
-    internal (int,int,int,int)[] TransactionHistory()
+    public (int,int,int,int)[] TransactionHistory()
     {
         (int, int, int, int)[] historyArray = new (int, int, int, int)[history.Count];
         history.CopyTo(historyArray);
@@ -76,6 +76,6 @@ class Container
         {
             displayMessage += $"{i}: {goods[i]}/{maxGoods[i]}\n";
         }
-        Console.WriteLine(displayMessage);
+        Console.Write(displayMessage);
     }
 }

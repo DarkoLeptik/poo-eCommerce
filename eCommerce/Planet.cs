@@ -4,7 +4,7 @@ class Planet : Container
 {
 	// Attributes.
     
-    private Ship?[,] harbors;
+    private Ship? [,] harbors;
     private int harbor_nb;
     
 	// Contructor.

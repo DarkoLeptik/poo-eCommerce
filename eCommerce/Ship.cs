@@ -47,7 +47,7 @@ class Ship : Container{
     public void updatePosition(){
         for(int i = 0; i<itinerary.Length; i++){
             if(position == itinerary[i]){
-                if(i == itinerary.Length){
+                if(i == itinerary.Length-1){
                     position = itinerary[0];
                 }
                 else{
