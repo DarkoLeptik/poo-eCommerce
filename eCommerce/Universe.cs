@@ -29,7 +29,7 @@ class Universe
         Random rdm = new Random();
         for (int i = 0; i < n; i++)
         {
-            allShips.Add(myCreator.CreateShip((ShipType)rdm.Next(2)));
+            allShips.Add(myCreator.CreateShip((ShipType)rdm.Next(3)));
         }
     }
 
@@ -126,5 +126,7 @@ class Universe
             
             Thread.Sleep(2000);
         }
+        Console.WriteLine("-*-*- eCommerce is over! -*-*-\n(press enter to quit)");
+        Console.ReadLine();
     }
 }
