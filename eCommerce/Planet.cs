@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+namespace  eCommerce;
 internal class Planet : Container
 {
 	// Attributes.
     
     private Ship? [,] harbors;
-    private int harbor_nb;
+    private int nbHarbor;
     
 	// Contructor.
     
@@ -15,9 +16,9 @@ internal class Planet : Container
     {
         // 1ère ligne: port  ;  2ème ligne: file d'attente   ; argument : nom du vaisseau
         // Harbor initalization
-        harbor_nb = harborsNb;
-        harbors=new Ship[2,harbor_nb]; 
-        for(int k=0;k<harbor_nb;k++){
+        nbHarbor = harborsNb;
+        harbors=new Ship[2,nbHarbor]; 
+        for(int k=0;k<nbHarbor;k++){
             harbors[0,k]=null;
             harbors[1,k]=null;
         }
@@ -31,7 +32,7 @@ internal class Planet : Container
     }  
 
     public void Advance(){
-        for(int i = 0; i<harbor_nb; i++){
+        for(int i = 0; i<nbHarbor; i++){
                 if(harbors[1, i] != null && harbors[0, i] == null){
                     harbors[0, i] = harbors[1, i];
                     harbors[1, i] = null;
@@ -42,7 +43,7 @@ internal class Planet : Container
     public void Land(Ship ship){
         int k=0; //compteur pour arrêter de chercher une place au port lorsqu'on en a trouvé une
         for(int j=0;((j<2)&&(k==0));j++){
-            for(int i=0;((i<harbor_nb)&&(k==0));i++){
+            for(int i=0;((i<nbHarbor)&&(k==0));i++){
                 if(Harbor[j,i]==null){
                     Harbor[j,i]=ship;
                     k++;   
@@ -57,7 +58,7 @@ internal class Planet : Container
     }
 
     public void TakeOff(Ship ship){
-        for(int i=0;i<harbor_nb;i++){
+        for(int i=0;i<nbHarbor;i++){
             for(int j=0;j<2;j++){
                 //System.Console.WriteLine("i:{0} j: {1} \n",i,j);
                 if(Harbor[j,i]==ship){

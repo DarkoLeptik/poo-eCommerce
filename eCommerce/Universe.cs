@@ -1,4 +1,4 @@
-
+namespace  eCommerce;
 public class Universe
 {
     private static List<Ship> allShips;
@@ -82,6 +82,9 @@ public class Universe
             // checks if it has some time left
             if (!ship.updateCyclesLeft())
             {
+                //remove the ship from its current planet
+                allPlanets[ship.Position].TakeOff(ship);
+                
                 allShips.Remove(ship);
                 Console.WriteLine("A ship has left the eCommerce !");
             }
@@ -116,7 +119,7 @@ public class Universe
     static void Main(string[] args){
         Console.WriteLine("-*-*- Welcome to the eCommerce! -*-*-");
         InitializeSpace();
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 8; i++)
         {
             Console.WriteLine($"\n---TURN {i}---");
             DisplayFullHistory();

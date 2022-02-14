@@ -1,16 +1,14 @@
 using System;
-
+namespace  eCommerce;
 class Trader{
     private Goods[] listOfGoods;
-
-    //constructor of class "Trader" 
     public Trader(int goodsNb){
         listOfGoods=new Goods[goodsNb];
         for (int i = 0; i < goodsNb-1; i++)
         {
-            Random rd = new Random(2);
+            Random rd = new Random();
             //random affectation of the dangerousness of goods
-            if(rd==0){  
+            if(rd.Next(2)==0){  
                 listOfGoods[i] = new Goods(false);
 
             }
@@ -19,9 +17,10 @@ class Trader{
             }
             
         }
+        listOfGoods[goodsNb-1] = new Goods(true);
     }
-
-    //method which permits to make the exchange between the different ship and planets
+    
+    // In each planet, checks the ship in harbor and have them trade
     internal void Trade(Planet[] planets){
         Ship? ship;
         bool a;
@@ -39,13 +38,15 @@ class Trader{
                         a=planets[i].AddGoodsFrom(ship,ship.TargetProduct,listOfGoods[ship.TargetProduct].quantity2unload());
                     }
                     else if (ship.CurrentAction == shipAction.noAction)
+                        // if the ship just landed, he chooses a new action
                     {
-                        ship.CurrentAction = (rdm.Next(2) > 0)
-                            ?  shipAction.buyGoods
-                            :  shipAction.sellGoods;
-                        ship.TargetProduct = rdm.Next(listOfGoods.Length); // TODO: choose depending on stock
+                        (shipAction, int) newAction = ship.AvailableAction();
+                        ship.CurrentAction = newAction.Item1;
+                        ship.TargetProduct = newAction.Item2;
                     }
-                    if(!a){
+                    if(!a)
+                        // if the action is over, he leaves the planet's port
+                    {
                         ship.CurrentAction = shipAction.leave;
                     }
                 }

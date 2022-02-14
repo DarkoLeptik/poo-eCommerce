@@ -1,4 +1,4 @@
-
+namespace  eCommerce;
 internal class Container
 {
     private int[] goods;
@@ -77,5 +77,26 @@ internal class Container
             displayMessage += $"{i}: {goods[i]}/{maxGoods[i]}\n";
         }
         Console.Write(displayMessage);
+    }
+
+    internal (shipAction, int) AvailableAction()
+    {
+        List<(shipAction, int)> results = new List<(shipAction, int)>();
+
+        for (int i = 0; i < maxGoods.Length; i++)
+        {
+            if (goods[i] > 0)
+            {
+                results.Add((shipAction.sellGoods,i));
+            }
+
+            if (goods[i] < maxGoods[i])
+            {
+                results.Add((shipAction.buyGoods,i));
+            }
+        }
+
+        Random rdm = new Random();
+        return results[rdm.Next(results.Count)];
     }
 }

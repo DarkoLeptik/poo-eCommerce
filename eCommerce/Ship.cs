@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+namespace  eCommerce;
 internal enum shipAction
 {
     buyGoods,
@@ -14,14 +15,14 @@ internal class Ship : Container{
     private shipAction currentAction;
     private int targetProduct;
 
-    private int nb_cycles;
+    private int nbCycles;
     
     public Ship(int[] myMaxGoods, int[] itin, int nbCycl): base(myMaxGoods){
         itinerary = itin;
         position = itin[0];
         currentAction = shipAction.travelling;
         targetProduct = -1;
-        nb_cycles = nbCycl;
+        nbCycles = nbCycl;
     }
     
     public int[] Itinerary{
@@ -59,8 +60,8 @@ internal class Ship : Container{
     }
 
     public bool updateCyclesLeft(){
-        nb_cycles --;
-        if(nb_cycles>0){
+        nbCycles --;
+        if(nbCycles>0){
             return true;
         }
         else{

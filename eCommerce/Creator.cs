@@ -1,3 +1,4 @@
+namespace  eCommerce;
 internal enum ShipType
 {
     Xwing = 0,

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+namespace  eCommerce;
  internal class Goods {
     
     private bool isDangerous;
