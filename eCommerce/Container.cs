@@ -1,5 +1,5 @@
 namespace  eCommerce;
-internal class Container
+internal abstract class Container
 {
     private int[] goods;
     private int[] maxGoods;

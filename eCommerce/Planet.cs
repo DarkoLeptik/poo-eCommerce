@@ -27,7 +27,7 @@ internal class Planet : Container
     public Ship?[,] Harbor
     {    
       // Getter
-      get { return harbors; }
+      get { return (Ship?[,])harbors.Clone();}
       private set { harbors=value;}
     }  
 
